@@ -12,6 +12,7 @@ Aplicativo pessoal em português para organizar tarefas e compromissos. Código 
 - Busca no título e na descrição; filtros de status e prioridade; ordenação por prazo, prioridade ou criação.
 - Indicadores calculados com os dados da conta e paginação visual de 20 itens.
 - Interface responsiva em modo claro; navegação por teclado e formulários com rótulos.
+- Instalável como aplicativo (PWA): "Adicionar à tela inicial" no celular ou "Instalar" no computador, com ícone próprio e sem barra de endereço. Não funciona offline; apenas abre como app.
 - Persistência no banco, isolamento entre usuários e controle de conflitos de edição.
 
 Minhas tarefas mostra itens ainda abertos. Meu dia mostra tarefas abertas com prazo no dia corrente; Próximos dias mostra todos os prazos futuros. Datas são dias de calendário, sem horário, interpretados no fuso do dispositivo. Os contadores do resumo consideram todas as tarefas da conta, independentemente do filtro atual.
