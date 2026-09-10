@@ -1,5 +1,5 @@
 :root {
-  --bg: #dcedfb;
+  --bg: #c3e0fa;
   --bg-pattern-tint: #ffffff8c;
   --surface: #fff;
   --ink: #202d45;
@@ -13,7 +13,7 @@
   --radius: 14px;
   --card-radius: 16px;
   --shadow: 0 4px 24px #142c6105;
-  --card-shadow: 0 6px 18px #14336d14;
+  --card-shadow: 0 12px 26px #10346d3d;
   color-scheme: light;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -49,7 +49,7 @@ body {
   color: var(--ink);
   background-color: var(--bg);
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' opacity='0.55'%3E%3Crect x='14' y='16' width='34' height='34' rx='6'/%3E%3Cpath d='M22 33l6 6 12-14'/%3E%3Ccircle cx='138' cy='34' r='19'/%3E%3Cpath d='M138 24v10l7 5'/%3E%3Crect x='96' y='92' width='38' height='30' rx='4'/%3E%3Cpath d='M96 100h38M106 86v10M124 86v10'/%3E%3Cpath d='M20 118a16 16 0 1 1 22 15'/%3E%3Cpath d='M40 129l3 8-8-2z'/%3E%3Cpath d='M150 130l10 10M160 130l-10 10'/%3E%3Ccircle cx='155' cy='135' r='16'/%3E%3C/g%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' opacity='0.85'%3E%3Crect x='16' y='18' width='38' height='38' rx='7'/%3E%3Cpath d='M25 37l7 7 13-16'/%3E%3Ccircle cx='153' cy='38' r='21'/%3E%3Cpath d='M153 27v11l8 5'/%3E%3Crect x='106' y='102' width='42' height='33' rx='5'/%3E%3Cpath d='M106 111h42M117 96v11M137 96v11'/%3E%3Cpath d='M22 130a18 18 0 1 1 24 17'/%3E%3Cpath d='M44 142l3 9-9-2z'/%3E%3Cpath d='M166 144l11 11M177 144l-11 11'/%3E%3Ccircle cx='172' cy='150' r='18'/%3E%3C/g%3E%3C/svg%3E");
   background-repeat: repeat;
   background-attachment: fixed;
   font-size: 16px;
@@ -765,8 +765,8 @@ progress::-moz-progress-bar {
 }
 .task-row:hover {
   background: #fbfcff;
-  box-shadow: 0 8px 22px #14336d1f;
-  transform: translateY(-1px);
+  box-shadow: 0 16px 32px #10346d4d;
+  transform: translateY(-2px);
 }
 .task-check {
   width: 20px;
