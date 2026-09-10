@@ -1,0 +1,40 @@
+{
+  "name": "lista-de-tarefas",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0 <25"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "db:migrate": "node --import tsx scripts/migrate.ts",
+    "user:create": "node --import tsx scripts/user.ts create",
+    "user:reset-password": "node --import tsx scripts/user.ts reset",
+    "test": "node --import tsx --test tests/core.test.ts",
+    "test:integration": "node --import tsx --test tests/integration.test.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "@libsql/client": "0.18.0",
+    "lucide-react": "^0.577.0",
+    "next": "16.3.4",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "server-only": "0.0.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "dotenv": "^17.0.0",
+    "prettier": "^3.9.6",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

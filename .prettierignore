@@ -1,0 +1,8 @@
+node_modules/
+.next/
+.env*
+*.db*
+*.tsbuildinfo
+.sites-runtime/
+package-lock.json
+next-env.d.ts

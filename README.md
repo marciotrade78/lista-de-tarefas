@@ -60,11 +60,11 @@ Os scripts administrativos carregam `.env.local` e `.env`, respeitando variávei
 
 Veja o passo a passo em [docs/DEPLOY.md](docs/DEPLOY.md). As três variáveis são:
 
-| Variável | Uso |
-|---|---|
-| `TURSO_DATABASE_URL` | URL do banco libSQL remoto; `file:` apenas fora da Vercel |
-| `TURSO_AUTH_TOKEN` | Token de acesso ao banco, exclusivo do servidor |
-| `APP_URL` | Origem exata do aplicativo, como `https://seu-projeto.vercel.app` |
+| Variável             | Uso                                                               |
+| -------------------- | ----------------------------------------------------------------- |
+| `TURSO_DATABASE_URL` | URL do banco libSQL remoto; `file:` apenas fora da Vercel         |
+| `TURSO_AUTH_TOKEN`   | Token de acesso ao banco, exclusivo do servidor                   |
+| `APP_URL`            | Origem exata do aplicativo, como `https://seu-projeto.vercel.app` |
 
 O build não conecta ao banco e não executa migrações. Aplique as migrações e crie a conta antes de utilizar a instalação. Na Vercel, URLs locais de banco são rejeitadas para evitar perda de dados. Nunca coloque tokens em variáveis `NEXT_PUBLIC_*`.
 
@@ -81,17 +81,17 @@ Os testes de integração precisam do build e iniciam temporariamente o servidor
 
 ## Estrutura
 
-| Caminho | Responsabilidade |
-|---|---|
-| `app/` | Páginas, estilos e rotas HTTP |
-| `components/` | Painel, login e diálogos |
-| `lib/server/auth-core.ts` | Login, sessões e limite de tentativas |
-| `lib/server/auth.ts` | Cookie e autorização nas rotas Next.js |
-| `lib/server/tasks.ts` | Persistência das tarefas e checagem de proprietário |
-| `lib/server/database.ts` | Conexão SQLite/libSQL |
-| `migrations/` | Esquema versionado |
-| `scripts/` | Migração, criação de conta e redefinição de senha |
-| `tests/` | Testes de banco e API |
+| Caminho                   | Responsabilidade                                    |
+| ------------------------- | --------------------------------------------------- |
+| `app/`                    | Páginas, estilos e rotas HTTP                       |
+| `components/`             | Painel, login e diálogos                            |
+| `lib/server/auth-core.ts` | Login, sessões e limite de tentativas               |
+| `lib/server/auth.ts`      | Cookie e autorização nas rotas Next.js              |
+| `lib/server/tasks.ts`     | Persistência das tarefas e checagem de proprietário |
+| `lib/server/database.ts`  | Conexão SQLite/libSQL                               |
+| `migrations/`             | Esquema versionado                                  |
+| `scripts/`                | Migração, criação de conta e redefinição de senha   |
+| `tests/`                  | Testes de banco e API                               |
 
 Detalhes de credenciais e fluxo de requisição: [docs/AUTHENTICATION.md](docs/AUTHENTICATION.md).
 

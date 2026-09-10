@@ -1,0 +1,12 @@
+node_modules/
+.next/
+.env*
+!.env.example
+*.db
+*.db-*
+*.sqlite*
+*.tsbuildinfo
+.vercel/
+.sites-runtime/
+coverage/
+.test-data/
