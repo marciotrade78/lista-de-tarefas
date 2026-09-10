@@ -543,107 +543,111 @@ export default function Dashboard({ user }: { user: PublicUser }) {
           </section>
           <div className="content-grid">
             <section className="task-surface" aria-label="Lista de tarefas">
-              <div className="surface-heading">
-                <div>
-                  <h2>
-                    {category ? `Tarefas · ${category}` : viewNames[view]}
-                  </h2>
-                  <span>
-                    {filtered.length}{" "}
-                    {filtered.length === 1 ? "tarefa" : "tarefas"}
-                  </span>
-                </div>
-                <button
-                  className="icon-button"
-                  title="Atualizar lista"
-                  aria-label="Atualizar lista"
-                  disabled={refreshing || !!busyTask || !!editor || !!deleting}
-                  onClick={load}
-                >
-                  <RefreshCw size={18} className={refreshing ? "spin" : ""} />
-                </button>
-              </div>
-              <div className="list-toolbar">
-                <label className="search">
-                  <Search size={18} />
-                  <input
-                    type="search"
-                    placeholder="Buscar tarefa…"
-                    aria-label="Buscar tarefas"
-                    value={query}
-                    onChange={(event) => setQuery(event.target.value)}
-                  />
-                </label>
-                <button
-                  className={`filter-button ${filtersOpen || priority || status ? "selected" : ""}`}
-                  aria-expanded={filtersOpen}
-                  onClick={() => setFiltersOpen(!filtersOpen)}
-                >
-                  <SlidersHorizontal size={17} />
-                  <span>Filtros</span>
-                  {(priority || status) && (
-                    <span className="filter-indicator" />
-                  )}
-                </button>
-                <label className="sort-control" title="Ordenar tarefas">
-                  <ArrowDownWideNarrow size={18} />
-                  <select
-                    aria-label="Ordenar tarefas"
-                    value={sort}
-                    onChange={(event) => setSort(event.target.value)}
+              <div className="toolbar-card">
+                <div className="surface-heading">
+                  <div>
+                    <h2>
+                      {category ? `Tarefas · ${category}` : viewNames[view]}
+                    </h2>
+                    <span>
+                      {filtered.length}{" "}
+                      {filtered.length === 1 ? "tarefa" : "tarefas"}
+                    </span>
+                  </div>
+                  <button
+                    className="icon-button"
+                    title="Atualizar lista"
+                    aria-label="Atualizar lista"
+                    disabled={
+                      refreshing || !!busyTask || !!editor || !!deleting
+                    }
+                    onClick={load}
                   >
-                    <option value="due">Prazo</option>
-                    <option value="priority">Prioridade</option>
-                    <option value="recent">Recentes</option>
-                  </select>
-                </label>
-              </div>
-              {filtersOpen && (
-                <div className="filter-panel">
-                  <label>
-                    Prioridade
-                    <select
-                      value={priority}
-                      onChange={(event) => setPriority(event.target.value)}
-                    >
-                      <option value="">Todas</option>
-                      <option value="high">Alta</option>
-                      <option value="medium">Média</option>
-                      <option value="low">Baixa</option>
-                    </select>
-                  </label>
-                  <label>
-                    Status
-                    <select
-                      value={status}
-                      onChange={(event) => setStatus(event.target.value)}
-                    >
-                      <option value="">Todos desta lista</option>
-                      <option value="pending">A fazer</option>
-                      <option value="progress">Em andamento</option>
-                      <option value="completed">Concluídas</option>
-                    </select>
+                    <RefreshCw size={18} className={refreshing ? "spin" : ""} />
+                  </button>
+                </div>
+                <div className="list-toolbar">
+                  <label className="search">
+                    <Search size={18} />
+                    <input
+                      type="search"
+                      placeholder="Buscar tarefa…"
+                      aria-label="Buscar tarefas"
+                      value={query}
+                      onChange={(event) => setQuery(event.target.value)}
+                    />
                   </label>
                   <button
-                    className="text-button"
-                    onClick={() => {
-                      setStatus("");
-                      setPriority("");
-                      setQuery("");
-                    }}
+                    className={`filter-button ${filtersOpen || priority || status ? "selected" : ""}`}
+                    aria-expanded={filtersOpen}
+                    onClick={() => setFiltersOpen(!filtersOpen)}
                   >
-                    Limpar filtros
+                    <SlidersHorizontal size={17} />
+                    <span>Filtros</span>
+                    {(priority || status) && (
+                      <span className="filter-indicator" />
+                    )}
                   </button>
+                  <label className="sort-control" title="Ordenar tarefas">
+                    <ArrowDownWideNarrow size={18} />
+                    <select
+                      aria-label="Ordenar tarefas"
+                      value={sort}
+                      onChange={(event) => setSort(event.target.value)}
+                    >
+                      <option value="due">Prazo</option>
+                      <option value="priority">Prioridade</option>
+                      <option value="recent">Recentes</option>
+                    </select>
+                  </label>
                 </div>
-              )}
-              {error && (
-                <div className="error-banner" role="alert">
-                  <span>{error}</span>
-                  <button onClick={load} disabled={refreshing || !!busyTask}>
-                    Atualizar lista
-                  </button>
-                </div>
-              )}
+                {filtersOpen && (
+                  <div className="filter-panel">
+                    <label>
+                      Prioridade
+                      <select
+                        value={priority}
+                        onChange={(event) => setPriority(event.target.value)}
+                      >
+                        <option value="">Todas</option>
+                        <option value="high">Alta</option>
+                        <option value="medium">Média</option>
+                        <option value="low">Baixa</option>
+                      </select>
+                    </label>
+                    <label>
+                      Status
+                      <select
+                        value={status}
+                        onChange={(event) => setStatus(event.target.value)}
+                      >
+                        <option value="">Todos desta lista</option>
+                        <option value="pending">A fazer</option>
+                        <option value="progress">Em andamento</option>
+                        <option value="completed">Concluídas</option>
+                      </select>
+                    </label>
+                    <button
+                      className="text-button"
+                      onClick={() => {
+                        setStatus("");
+                        setPriority("");
+                        setQuery("");
+                      }}
+                    >
+                      Limpar filtros
+                    </button>
+                  </div>
+                )}
+                {error && (
+                  <div className="error-banner" role="alert">
+                    <span>{error}</span>
+                    <button onClick={load} disabled={refreshing || !!busyTask}>
+                      Atualizar lista
+                    </button>
+                  </div>
+                )}
+              </div>
               {loading ? (
                 <div className="empty-state" role="status">
                   <div className="loading-ring" />
@@ -893,6 +897,15 @@ export default function Dashboard({ user }: { user: PublicUser }) {
           </footer>
         </main>
       </div>
+      <button
+        className="fab"
+        aria-label="Nova tarefa"
+        title="Nova tarefa"
+        onClick={() => setEditor({ task: null })}
+        disabled={loading || !!busyTask}
+      >
+        <Plus size={26} />
+      </button>
       {notice && (
         <div className="toast" role="status">
           <CircleCheck size={19} />
