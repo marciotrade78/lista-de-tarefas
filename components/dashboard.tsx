@@ -87,6 +87,7 @@ export default function Dashboard({ user }: { user: PublicUser }) {
   const [status, setStatus] = useState("");
   const [sort, setSort] = useState("due");
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [mobileNav, setMobileNav] = useState(false);
   const [editor, setEditor] = useState<{ task: Task | null } | null>(null);
   const [deleting, setDeleting] = useState<Task | null>(null);
@@ -142,7 +143,6 @@ export default function Dashboard({ user }: { user: PublicUser }) {
   const overdue = pending.filter(
     (task) => task.dueDate && task.dueDate < today,
   );
-  const inProgress = pending.filter((task) => task.status === "progress");
   const completion = tasks.length
     ? Math.round((completed / tasks.length) * 100)
     : 0;
@@ -373,6 +373,16 @@ export default function Dashboard({ user }: { user: PublicUser }) {
             <span>Concluídas</span>
             <span className="nav-count">{completed}</span>
           </button>
+          <button
+            className={view === "overdue" ? "active" : ""}
+            onClick={() => selectView("overdue")}
+          >
+            <Flag size={20} />
+            <span>Atrasadas</span>
+            {overdue.length > 0 && (
+              <span className="nav-count">{overdue.length}</span>
+            )}
+          </button>
         </nav>
         <div className="workspace-label category-heading">CATEGORIAS</div>
         <nav className="category-nav">
@@ -430,117 +440,67 @@ export default function Dashboard({ user }: { user: PublicUser }) {
       </aside>
       <div className="main-shell">
         <header className="topbar">
-          <div className="breadcrumb">
-            <button
-              className="icon-button mobile-menu"
-              aria-label="Abrir menu"
-              aria-expanded={mobileNav}
-              onClick={() => setMobileNav(true)}
-            >
-              <Menu />
-            </button>
-            <span>Meu espaço</span>
-            <ChevronRight size={15} />
-            <strong>{category || viewNames[view]}</strong>
-          </div>
-          <div className="topbar-right">
-            <span className="today-label">
-              {today &&
-                new Intl.DateTimeFormat("pt-BR", {
-                  weekday: "short",
-                  day: "numeric",
-                  month: "long",
-                }).format(new Date(`${today}T12:00:00`))}
-            </span>
-            <span className="avatar small">
-              {user.name.slice(0, 1).toUpperCase()}
-            </span>
-          </div>
+          {searchOpen ? (
+            <div className="topbar-search">
+              <Search size={18} />
+              <input
+                type="search"
+                autoFocus
+                placeholder="Buscar tarefa…"
+                aria-label="Buscar tarefas"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+              />
+              <button
+                className="icon-button"
+                aria-label="Fechar busca"
+                onClick={() => {
+                  setSearchOpen(false);
+                  setQuery("");
+                }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="breadcrumb">
+                <button
+                  className="icon-button mobile-menu"
+                  aria-label="Abrir menu"
+                  aria-expanded={mobileNav}
+                  onClick={() => setMobileNav(true)}
+                >
+                  <Menu />
+                </button>
+                <span>Meu espaço</span>
+                <ChevronRight size={15} />
+                <strong>{category || viewNames[view]}</strong>
+              </div>
+              <div className="topbar-right">
+                <span className="today-label">
+                  {today &&
+                    new Intl.DateTimeFormat("pt-BR", {
+                      weekday: "short",
+                      day: "numeric",
+                      month: "long",
+                    }).format(new Date(`${today}T12:00:00`))}
+                </span>
+                <button
+                  className="icon-button"
+                  aria-label="Buscar tarefas"
+                  onClick={() => setSearchOpen(true)}
+                >
+                  <Search size={18} />
+                </button>
+                <span className="avatar small">
+                  {user.name.slice(0, 1).toUpperCase()}
+                </span>
+              </div>
+            </>
+          )}
         </header>
         <main id="main" className="main-content">
-          <div className="page-heading">
-            <div>
-              <span className="eyebrow">UM PASSO DE CADA VEZ</span>
-              <h1>
-                {category || viewNames[view]}
-                <span className="heading-dot">.</span>
-              </h1>
-              <p>
-                Olá, {user.name.split(" ")[0]}. Vamos organizar o que vem pela
-                frente?
-              </p>
-            </div>
-            <button
-              className="primary new-task"
-              onClick={() => setEditor({ task: null })}
-              disabled={loading || !!busyTask}
-            >
-              <Plus size={19} />
-              Nova tarefa
-            </button>
-          </div>
-          <section className="stats" aria-label="Resumo das tarefas">
-            <button
-              className="stat-card"
-              onClick={() => {
-                selectView("all");
-                setStatus("pending");
-              }}
-            >
-              <span className="stat-icon blue">
-                <ListTodo />
-              </span>
-              <div>
-                <span>A fazer</span>
-                <strong>
-                  {loading
-                    ? "—"
-                    : pending.filter((task) => task.status === "pending")
-                        .length}
-                </strong>
-              </div>
-              <ArrowRight className="stat-arrow" size={16} />
-            </button>
-            <button
-              className="stat-card"
-              onClick={() => {
-                selectView("all");
-                setStatus("progress");
-              }}
-            >
-              <span className="stat-icon amber">
-                <Clock3 />
-              </span>
-              <div>
-                <span>Em andamento</span>
-                <strong>{loading ? "—" : inProgress.length}</strong>
-              </div>
-              <ArrowRight className="stat-arrow" size={16} />
-            </button>
-            <button
-              className="stat-card"
-              onClick={() => selectView("completed")}
-            >
-              <span className="stat-icon green">
-                <CheckCheck />
-              </span>
-              <div>
-                <span>Concluídas</span>
-                <strong>{loading ? "—" : completed}</strong>
-              </div>
-              <ArrowRight className="stat-arrow" size={16} />
-            </button>
-            <button className="stat-card" onClick={() => selectView("overdue")}>
-              <span className="stat-icon red">
-                <Flag />
-              </span>
-              <div>
-                <span>Atrasadas</span>
-                <strong>{loading ? "—" : overdue.length}</strong>
-              </div>
-              <ArrowRight className="stat-arrow" size={16} />
-            </button>
-          </section>
           <div className="content-grid">
             <section className="task-surface" aria-label="Lista de tarefas">
               <div className="toolbar-card">
@@ -567,16 +527,6 @@ export default function Dashboard({ user }: { user: PublicUser }) {
                   </button>
                 </div>
                 <div className="list-toolbar">
-                  <label className="search">
-                    <Search size={18} />
-                    <input
-                      type="search"
-                      placeholder="Buscar tarefa…"
-                      aria-label="Buscar tarefas"
-                      value={query}
-                      onChange={(event) => setQuery(event.target.value)}
-                    />
-                  </label>
                   <button
                     className={`filter-button ${filtersOpen || priority || status ? "selected" : ""}`}
                     aria-expanded={filtersOpen}
