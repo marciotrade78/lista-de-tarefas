@@ -1,5 +1,5 @@
 :root {
-  --bg: #c3e0fa;
+  --bg: #e4f5fd;
   --bg-pattern-tint: #ffffff8c;
   --surface: #fff;
   --ink: #202d45;
@@ -48,9 +48,10 @@ body {
   margin: 0;
   color: var(--ink);
   background-color: var(--bg);
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' opacity='0.85'%3E%3Crect x='16' y='18' width='38' height='38' rx='7'/%3E%3Cpath d='M25 37l7 7 13-16'/%3E%3Ccircle cx='153' cy='38' r='21'/%3E%3Cpath d='M153 27v11l8 5'/%3E%3Crect x='106' y='102' width='42' height='33' rx='5'/%3E%3Cpath d='M106 111h42M117 96v11M137 96v11'/%3E%3Cpath d='M22 130a18 18 0 1 1 24 17'/%3E%3Cpath d='M44 142l3 9-9-2z'/%3E%3Cpath d='M166 144l11 11M177 144l-11 11'/%3E%3Ccircle cx='172' cy='150' r='18'/%3E%3C/g%3E%3C/svg%3E");
-  background-repeat: repeat;
+  background-image: url("/patterns/tasks-background.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top center;
   background-attachment: fixed;
   font-size: 16px;
   line-height: 1.5;
