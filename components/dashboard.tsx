@@ -1,7 +1,6 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  ArrowDownWideNarrow,
   ArrowRight,
   BookOpen,
   BriefcaseBusiness,
@@ -22,7 +21,6 @@ import {
   Plus,
   RefreshCw,
   Search,
-  SlidersHorizontal,
   Trash2,
   Users,
   X,
@@ -83,10 +81,6 @@ export default function Dashboard({ user }: { user: PublicUser }) {
   const [view, setView] = useState<View>("all");
   const [category, setCategory] = useState("");
   const [query, setQuery] = useState("");
-  const [priority, setPriority] = useState("");
-  const [status, setStatus] = useState("");
-  const [sort, setSort] = useState("due");
-  const [filtersOpen, setFiltersOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileNav, setMobileNav] = useState(false);
   const [editor, setEditor] = useState<{ task: Task | null } | null>(null);
@@ -135,7 +129,7 @@ export default function Dashboard({ user }: { user: PublicUser }) {
   }, [notice]);
   useEffect(() => {
     setPage(1);
-  }, [view, category, query, priority, status, sort]);
+  }, [view, category, query]);
 
   const pending = tasks.filter((task) => task.status !== "completed");
   const completed = tasks.length - pending.length;
@@ -173,28 +167,19 @@ export default function Dashboard({ user }: { user: PublicUser }) {
           return false;
         return (
           (!category || task.category === category) &&
-          (!priority || task.priority === priority) &&
-          (!status || task.status === status) &&
           (!normalized ||
             `${task.title} ${task.description}`
               .toLocaleLowerCase("pt-BR")
               .includes(normalized))
         );
       })
-      .sort((a, b) => {
-        if (sort === "recent") return b.createdAt - a.createdAt;
-        if (sort === "priority") {
-          const ranks = { high: 0, medium: 1, low: 2 };
-          const difference = ranks[a.priority] - ranks[b.priority];
-          if (difference) return difference;
-        }
-        return (
+      .sort(
+        (a, b) =>
           (a.dueDate ?? "9999-99-99").localeCompare(
             b.dueDate ?? "9999-99-99",
-          ) || b.createdAt - a.createdAt
-        );
-      });
-  }, [tasks, view, today, category, priority, status, query, sort]);
+          ) || b.createdAt - a.createdAt,
+      );
+  }, [tasks, view, today, category, query]);
   const pageCount = Math.max(1, Math.ceil(filtered.length / 20));
   const currentPage = Math.min(page, pageCount);
   const visible = filtered.slice((currentPage - 1) * 20, currentPage * 20);
@@ -208,8 +193,6 @@ export default function Dashboard({ user }: { user: PublicUser }) {
   function selectView(next: View, nextCategory = "") {
     setView(next);
     setCategory(nextCategory);
-    setPriority("");
-    setStatus("");
     setQuery("");
     setMobileNav(false);
   }
@@ -526,69 +509,6 @@ export default function Dashboard({ user }: { user: PublicUser }) {
                     <RefreshCw size={18} className={refreshing ? "spin" : ""} />
                   </button>
                 </div>
-                <div className="list-toolbar">
-                  <button
-                    className={`filter-button ${filtersOpen || priority || status ? "selected" : ""}`}
-                    aria-expanded={filtersOpen}
-                    onClick={() => setFiltersOpen(!filtersOpen)}
-                  >
-                    <SlidersHorizontal size={17} />
-                    <span>Filtros</span>
-                    {(priority || status) && (
-                      <span className="filter-indicator" />
-                    )}
-                  </button>
-                  <label className="sort-control" title="Ordenar tarefas">
-                    <ArrowDownWideNarrow size={18} />
-                    <select
-                      aria-label="Ordenar tarefas"
-                      value={sort}
-                      onChange={(event) => setSort(event.target.value)}
-                    >
-                      <option value="due">Prazo</option>
-                      <option value="priority">Prioridade</option>
-                      <option value="recent">Recentes</option>
-                    </select>
-                  </label>
-                </div>
-                {filtersOpen && (
-                  <div className="filter-panel">
-                    <label>
-                      Prioridade
-                      <select
-                        value={priority}
-                        onChange={(event) => setPriority(event.target.value)}
-                      >
-                        <option value="">Todas</option>
-                        <option value="high">Alta</option>
-                        <option value="medium">Média</option>
-                        <option value="low">Baixa</option>
-                      </select>
-                    </label>
-                    <label>
-                      Status
-                      <select
-                        value={status}
-                        onChange={(event) => setStatus(event.target.value)}
-                      >
-                        <option value="">Todos desta lista</option>
-                        <option value="pending">A fazer</option>
-                        <option value="progress">Em andamento</option>
-                        <option value="completed">Concluídas</option>
-                      </select>
-                    </label>
-                    <button
-                      className="text-button"
-                      onClick={() => {
-                        setStatus("");
-                        setPriority("");
-                        setQuery("");
-                      }}
-                    >
-                      Limpar filtros
-                    </button>
-                  </div>
-                )}
                 {error && (
                   <div className="error-banner" role="alert">
                     <span>{error}</span>
@@ -613,8 +533,8 @@ export default function Dashboard({ user }: { user: PublicUser }) {
                     )}
                   </span>
                   <h3>
-                    {query || priority || status
-                      ? "Nenhuma tarefa com esses filtros"
+                    {query
+                      ? "Nenhuma tarefa com essa busca"
                       : view === "today"
                         ? "Seu dia está livre por aqui"
                         : view === "overdue"
@@ -624,8 +544,8 @@ export default function Dashboard({ user }: { user: PublicUser }) {
                             : "Espaço livre para seus próximos passos"}
                   </h3>
                   <p>
-                    {query || priority || status
-                      ? "Ajuste os filtros ou tente outra busca."
+                    {query
+                      ? "Tente outra busca."
                       : view === "completed"
                         ? "As tarefas que você concluir aparecerão aqui."
                         : "Adicione uma tarefa e tire esse compromisso da cabeça."}

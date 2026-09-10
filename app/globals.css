@@ -13,7 +13,7 @@
   --radius: 14px;
   --card-radius: 16px;
   --shadow: 0 4px 24px #142c6105;
-  --card-shadow: 0 12px 26px #10346d3d;
+  --card-shadow: 0 12px 28px #0d2c5c5c;
   color-scheme: light;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -682,92 +682,6 @@ progress::-moz-progress-bar {
   padding: 3px 7px;
   white-space: nowrap;
 }
-.list-toolbar {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin: 0 23px 18px;
-}
-.search {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  background: #f8f9fc;
-  border: 1px solid var(--line);
-  padding: 0 11px;
-  border-radius: 8px;
-  flex: 1;
-  min-width: 0;
-  color: #8a95a7;
-}
-.search input {
-  border: 0;
-  background: transparent;
-  margin: 0;
-  padding: 10px 0;
-  font-size: 14px;
-  outline-offset: 0;
-}
-.filter-button {
-  height: 42px;
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 0 12px;
-  font-size: 13px;
-  color: #5e6d84;
-  flex: 1;
-  display: flex;
-  gap: 7px;
-  align-items: center;
-}
-.filter-button.selected {
-  background: var(--blue-soft);
-  color: var(--blue);
-  border-color: #d6e1fd;
-}
-.filter-indicator {
-  width: 5px;
-  height: 5px;
-  background: var(--blue);
-  border-radius: 50%;
-}
-.sort-control {
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  height: 42px;
-  padding: 0 8px;
-  color: #5e6d84;
-  flex: 1;
-}
-.sort-control select {
-  margin: 0;
-  border: 0;
-  padding: 8px 2px 8px 5px;
-  font-size: 13px;
-  width: 90px;
-  background: transparent;
-}
-.filter-panel {
-  padding: 14px 23px 20px;
-  border-top: 1px solid var(--line);
-  display: flex;
-  align-items: end;
-  gap: 15px;
-}
-.filter-panel label {
-  flex: 1;
-  font-size: 13px;
-}
-.filter-panel select {
-  font-size: 14px;
-}
-.filter-panel .text-button {
-  margin-bottom: 4px;
-  white-space: nowrap;
-}
 .task-list {
   list-style: none;
   margin: 0;
@@ -791,7 +705,7 @@ progress::-moz-progress-bar {
 }
 .task-row:hover {
   background: #fbfcff;
-  box-shadow: 0 16px 32px #10346d4d;
+  box-shadow: 0 18px 38px #0d2c5c73;
   transform: translateY(-2px);
 }
 .task-check {
@@ -1444,22 +1358,12 @@ progress::-moz-progress-bar {
   .surface-heading {
     padding: 18px 17px;
   }
-  .list-toolbar {
-    margin-left: 17px;
-    margin-right: 17px;
-  }
   .focus-card {
     padding: 21px;
   }
   .priority-badge {
     font-size: 10px;
     padding: 3px 6px;
-  }
-  .filter-button span:not(.filter-indicator) {
-    display: none;
-  }
-  .filter-button {
-    padding: 0 10px;
   }
   .task-meta {
     gap: 8px;
@@ -1511,9 +1415,6 @@ progress::-moz-progress-bar {
   }
   .task-meta > span {
     font-size: 12px;
-  }
-  .list-toolbar .filter-button span {
-    display: inline;
   }
   .stats {
     grid-template-columns: repeat(2, 1fr);
@@ -1718,25 +1619,6 @@ progress::-moz-progress-bar {
   .surface-heading > div > span {
     font-size: 11px;
   }
-  .list-toolbar {
-    margin: 0 14px 15px;
-    gap: 7px;
-    flex-wrap: wrap;
-  }
-  .search {
-    flex-basis: 100%;
-  }
-  .filter-button {
-    flex: 1;
-    justify-content: center;
-  }
-  .sort-control {
-    flex: 1;
-    justify-content: center;
-  }
-  .sort-control select {
-    width: 100px;
-  }
   .task-row {
     padding: 17px 13px;
     gap: 10px;
@@ -1772,17 +1654,6 @@ progress::-moz-progress-bar {
     font-size: 12px;
     margin-top: 7px;
     gap: 10px;
-  }
-  .filter-panel {
-    padding: 14px;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .filter-panel label {
-    flex-basis: 40%;
-  }
-  .filter-panel .text-button {
-    margin: 0;
   }
   .right-column {
     grid-template-columns: 1fr;
