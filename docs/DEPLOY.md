@@ -36,6 +36,8 @@ npm run db:migrate
 npm run user:create
 ```
 
+Como alternativa na instalação inicial, use o link privado `/configurar` entregue ao proprietário após o deploy. O formulário aplica as migrações e cria a primeira conta com a senha escolhida pelo usuário, sem compartilhar a senha no chat. O link exige chave válida e deixa de funcionar após a configuração.
+
 Esses comandos criam as tabelas e a sua conta **no banco indicado**. Dados do `local.db` não são copiados automaticamente. Não importe banco de testes em produção. Não compartilhe tokens, senhas ou o arquivo `.env.local` no repositório.
 
 ## 3. Importar na Vercel

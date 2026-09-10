@@ -45,3 +45,7 @@ As tarefas têm `version`. Atualização e exclusão usam essa versão no `WHERE
 O limite de login é por e-mail; não é um serviço global de prevenção de abuso nem limitação por IP. Contas são criadas administrativamente. Não há verificação de e-mail, MFA, recuperação por e-mail ou cadastro público. Esta versão atende uso privado; exposição pública em escala requer uma revisão específica desses controles.
 
 Testes: `tests/core.test.ts` cobre hashes, tokens, expiração, revogação, limite de tentativas, isolamento e conflitos. `tests/integration.test.ts` cobre cookies, origem, APIs privadas e operações HTTP.
+
+## Primeiro acesso protegido
+
+`POST /api/setup` aceita somente a chave privada cuja impressão SHA-256 está em `lib/server/setup-config.ts`, dentro da validade de 48 horas. Antes de qualquer acesso ao banco, verifica a chave; a rota também verifica a origem. O código aplica as migrações e cria a primeira conta em uma transação que registra o bloqueio em `app_setup`. Cadastro público permanece desabilitado. O bloqueio persiste mesmo após exclusão das contas. O link carrega a chave no fragmento, que não é transmitido no URL HTTP; o formulário a remove da barra de endereço e a envia somente no corpo do POST. Senhas são escolhidas pelo usuário e recebem o mesmo hash scrypt do fluxo administrativo. Testes em `tests/setup.test.ts` cobrem chaves inválidas, expiração e bloqueio permanente.

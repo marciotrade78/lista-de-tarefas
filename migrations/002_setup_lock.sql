@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS app_setup (
+  id INTEGER PRIMARY KEY CHECK (id = 1),
+  completed_at INTEGER NOT NULL
+);

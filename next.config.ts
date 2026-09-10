@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const config: NextConfig = {
   poweredByHeader: false,
   serverExternalPackages: ["@libsql/client"],
+  outputFileTracingIncludes: { "/api/setup": ["./migrations/*.sql"] },
   async headers() {
     return [
       {

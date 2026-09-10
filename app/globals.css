@@ -12,6 +12,30 @@
   color-scheme: light;
   font-family: Arial, Helvetica, sans-serif;
 }
+.setup-card {
+  width: min(100%, 440px);
+  background: white;
+  border: 1px solid var(--line);
+  padding: 30px;
+  border-radius: 18px;
+  text-align: left;
+}
+.setup-card .brand {
+  margin-bottom: 28px;
+}
+.setup-card h1 {
+  font-size: 26px;
+  margin-bottom: 12px;
+}
+.setup-card > p {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.setup-card .login-note {
+  margin: 22px 0 0;
+  font-size: 12px;
+}
 * {
   box-sizing: border-box;
 }

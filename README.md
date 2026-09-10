@@ -46,7 +46,7 @@ npm run user:create
 npm run dev
 ```
 
-Abra [localhost:3000](http://localhost:3000) e entre com a conta criada. O comando de criação solicita e-mail, nome e senha no terminal. A senha não aparece enquanto é digitada. Não existe conta ou senha padrão, nem cadastro público.
+Abra [localhost:3000](http://localhost:3000) e entre com a conta criada. O comando de criação solicita e-mail, nome e senha no terminal. A senha não aparece enquanto é digitada. Não existe conta ou senha padrão, nem cadastro público. A instalação inicial também pode ser concluída pelo link privado de configuração, conforme descrito abaixo.
 
 Para redefinir uma senha e encerrar todas as sessões da conta:
 
@@ -100,3 +100,7 @@ Detalhes de credenciais e fluxo de requisição: [docs/AUTHENTICATION.md](docs/A
 Aplicativo privado, com criação de contas pelo terminal. Não inclui cadastro público, envio de e-mails, recuperação automática de senha, login social, MFA, notificações, recorrência, colaboração entre contas ou sincronização offline. Todas as tarefas da conta são carregadas para busca e filtros locais; a paginação é visual, não uma paginação de banco para grandes volumes. Atualize a lista para buscar alterações feitas em outro dispositivo. A interface foi escrita para celular e computador; o workflow cobre lógica e HTTP, não inspeção visual no navegador.
 
 O código não cria automaticamente contas Turso/Vercel, recursos pagos, banco remoto ou implantação. Esses recursos serão configurados na etapa de deploy.
+
+## Configuração inicial pelo navegador
+
+A página `/configurar` permite ao proprietário criar a primeira conta com um link privado de uso único. Uma chave aleatória de 256 bits é enviada no fragmento do link e mantida apenas em memória no navegador; o repositório guarda somente seu SHA-256 e a validade de 48 horas em `lib/server/setup-config.ts`. A API valida a chave e a origem antes de aplicar as migrações e criar a conta. A chave nunca deve ser adicionada ao repositório. Após a criação, um bloqueio persistente em `app_setup` impede nova configuração, mesmo que as contas sejam removidas. Instalações com usuários existentes também bloqueiam esse fluxo. A autenticação normal continua em `/login`; contas adicionais continuam sendo criadas pelo administrador. Novas instalações independentes precisam de uma nova chave privada e seu hash, não do link de outra instalação.
