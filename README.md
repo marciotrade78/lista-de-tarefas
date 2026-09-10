@@ -4,7 +4,7 @@ Aplicativo pessoal em português para organizar tarefas e compromissos. Código 
 
 ## Funcionalidades
 
-- Login por e-mail e senha, com contas provisionadas pelo responsável pelo aplicativo.
+- Login por e-mail e senha. Contas são criadas pelo responsável do aplicativo ou por quem tiver um link de convite ativo.
 - Criar, editar, concluir, reabrir e excluir tarefas com confirmação.
 - Título, descrição, categoria, prioridade, status e prazo opcional.
 - Visões Minhas tarefas, Meu dia, Próximos dias, Concluídas e Atrasadas.
@@ -54,6 +54,18 @@ Para redefinir uma senha e encerrar todas as sessões da conta:
 npm run user:reset-password
 ```
 
+Para permitir que outras pessoas criem a própria conta, gere um link de convite:
+
+```bash
+npm run invite:create
+```
+
+O comando imprime um link (`/cadastro#convite=...`) que pode ser compartilhado com quem você quiser; qualquer pessoa com o link escolhe o próprio e-mail e senha. O link vale até ser substituído por um novo (`npm run invite:create` gera outro e invalida o anterior) ou desativado:
+
+```bash
+npm run invite:revoke
+```
+
 Os scripts administrativos carregam `.env.local` e `.env`, respeitando variáveis já definidas no processo. Execute-os somente com acesso confiável ao banco correto.
 
 ## Preparar o Turso e a Vercel
@@ -90,17 +102,21 @@ Os testes de integração precisam do build e iniciam temporariamente o servidor
 | `lib/server/tasks.ts`     | Persistência das tarefas e checagem de proprietário |
 | `lib/server/database.ts`  | Conexão SQLite/libSQL                               |
 | `migrations/`             | Esquema versionado                                  |
-| `scripts/`                | Migração, criação de conta e redefinição de senha   |
+| `scripts/`                | Migração, criação de conta, redefinição de senha e convites |
 | `tests/`                  | Testes de banco e API                               |
 
 Detalhes de credenciais e fluxo de requisição: [docs/AUTHENTICATION.md](docs/AUTHENTICATION.md).
 
 ## Escopo desta versão
 
-Aplicativo privado, com criação de contas pelo terminal. Não inclui cadastro público, envio de e-mails, recuperação automática de senha, login social, MFA, notificações, recorrência, colaboração entre contas ou sincronização offline. Todas as tarefas da conta são carregadas para busca e filtros locais; a paginação é visual, não uma paginação de banco para grandes volumes. Atualize a lista para buscar alterações feitas em outro dispositivo. A interface foi escrita para celular e computador; o workflow cobre lógica e HTTP, não inspeção visual no navegador.
+Aplicativo privado. Contas são criadas pelo terminal ou por convite (link compartilhável, sem cadastro público aberto a qualquer visitante). Não inclui envio de e-mails, recuperação automática de senha, login social, MFA, notificações, recorrência, colaboração entre contas ou sincronização offline. Todas as tarefas da conta são carregadas para busca e filtros locais; a paginação é visual, não uma paginação de banco para grandes volumes. Atualize a lista para buscar alterações feitas em outro dispositivo. A interface foi escrita para celular e computador; o workflow cobre lógica e HTTP, não inspeção visual no navegador.
 
 O código não cria automaticamente contas Turso/Vercel, recursos pagos, banco remoto ou implantação. Esses recursos serão configurados na etapa de deploy.
 
 ## Configuração inicial pelo navegador
 
-A página `/configurar` permite ao proprietário criar a primeira conta com um link privado de uso único. Uma chave aleatória de 256 bits é enviada no fragmento do link e mantida apenas em memória no navegador; o repositório guarda somente seu SHA-256 e a validade de 48 horas em `lib/server/setup-config.ts`. A API valida a chave e a origem antes de aplicar as migrações e criar a conta. A chave nunca deve ser adicionada ao repositório. Após a criação, um bloqueio persistente em `app_setup` impede nova configuração, mesmo que as contas sejam removidas. Instalações com usuários existentes também bloqueiam esse fluxo. A autenticação normal continua em `/login`; contas adicionais continuam sendo criadas pelo administrador. Novas instalações independentes precisam de uma nova chave privada e seu hash, não do link de outra instalação.
+A página `/configurar` permite ao proprietário criar a primeira conta com um link privado de uso único. Uma chave aleatória de 256 bits é enviada no fragmento do link e mantida apenas em memória no navegador; o repositório guarda somente seu SHA-256 e a validade de 48 horas em `lib/server/setup-config.ts`. A API valida a chave e a origem antes de aplicar as migrações e criar a conta. A chave nunca deve ser adicionada ao repositório. Após a criação, um bloqueio persistente em `app_setup` impede nova configuração, mesmo que as contas sejam removidas. Instalações com usuários existentes também bloqueiam esse fluxo. A autenticação normal continua em `/login`; contas adicionais continuam sendo criadas pelo administrador ou por convite. Novas instalações independentes precisam de uma nova chave privada e seu hash, não do link de outra instalação.
+
+## Convite para novas contas
+
+A página `/cadastro` permite que qualquer pessoa com um link de convite válido crie a própria conta, escolhendo e-mail e senha. Diferente do link de `/configurar`, o convite pode ser usado por várias pessoas diferentes, uma de cada vez, até ser substituído ou desativado. O link carrega o token no fragmento da URL, removido da barra de endereço assim que a página carrega e enviado somente no corpo do POST, seguindo o mesmo cuidado do link de configuração inicial. Apenas o SHA-256 do token fica no banco (`invite_link`), gerado e revogado com `npm run invite:create` / `npm run invite:revoke`. Não há verificação de e-mail nem aprovação manual de quem se cadastra: qualquer pessoa que receber o link ativo consegue criar uma conta com acesso às próprias tarefas, isoladas das demais.

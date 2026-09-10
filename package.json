@@ -14,7 +14,9 @@
     "db:migrate": "node --import tsx scripts/migrate.ts",
     "user:create": "node --import tsx scripts/user.ts create",
     "user:reset-password": "node --import tsx scripts/user.ts reset",
-    "test": "node --import tsx --test tests/core.test.ts tests/setup.test.ts",
+    "invite:create": "node --import tsx scripts/invite.ts create",
+    "invite:revoke": "node --import tsx scripts/invite.ts revoke",
+    "test": "node --import tsx --test tests/core.test.ts tests/setup.test.ts tests/invite.test.ts",
     "test:integration": "node --import tsx --test tests/integration.test.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check ."

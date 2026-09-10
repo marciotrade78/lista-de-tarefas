@@ -61,7 +61,7 @@ test("authorized setup creates schema and a password-hashed account", async () =
   );
   assert.equal(
     (await getDb().execute("SELECT * FROM schema_migrations")).rows.length,
-    2,
+    3,
   );
   assert.equal(
     (await getDb().execute("SELECT * FROM app_setup")).rows.length,

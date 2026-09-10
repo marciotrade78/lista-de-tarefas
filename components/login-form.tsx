@@ -124,8 +124,8 @@ export default function LoginForm() {
             </button>
           </form>
           <p className="login-note">
-            Acesso privado. Para criar seu acesso ou redefinir sua senha,
-            procure o responsável pelo aplicativo.
+            Para criar sua conta, use o link de convite que você recebeu.
+            Para redefinir sua senha, procure o responsável pelo aplicativo.
           </p>
         </div>
       </section>

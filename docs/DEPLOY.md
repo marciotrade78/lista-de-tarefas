@@ -59,10 +59,11 @@ Referência: [variáveis de ambiente da Vercel](https://vercel.com/docs/environm
 
 - Para criar outra conta, execute `npm run user:create` com a configuração do banco correto. Cada conta terá sua própria lista.
 - Para trocar uma senha, execute `npm run user:reset-password`; as sessões anteriores dessa conta são revogadas.
+- Para permitir que outras pessoas criem a própria conta, execute `npm run invite:create` (apontando para o banco de produção) e compartilhe o link impresso. `npm run invite:create` de novo substitui o convite ativo; `npm run invite:revoke` desativa sem gerar um novo. Isso exige que a migração `003_invite_link.sql` já tenha sido aplicada nesse banco (`npm run db:migrate`).
 - Migrações aplicadas têm checksum. Adicione novos arquivos numerados para mudanças futuras; não edite uma migração já aplicada.
 - Antes de mudanças de esquema, mantenha backup e confirme as opções de recuperação disponíveis no plano contratado.
 - Monitore validade do token e consumo do banco. Ao trocar o token, atualize a variável na Vercel e faça novo deploy. Ao revogar tokens, avalie o impacto nos demais consumidores desse banco.
-- A limitação de login desta versão é por e-mail e persiste no banco. Para abrir o serviço a um público amplo, acrescente controles de tráfego no provedor, revisão de segurança e um fluxo de recuperação de conta adequado.
+- A limitação de login desta versão é por e-mail e persiste no banco. Cadastro por convite não tem verificação de e-mail nem CAPTCHA; se o link vazar além de quem foi convidado, qualquer pessoa com ele cria uma conta. Para abrir o serviço a um público realmente amplo (sem depender do sigilo do link), acrescente controles de tráfego no provedor, revisão de segurança e um fluxo de recuperação de conta adequado.
 
 ## 5. Custos e pendências
 

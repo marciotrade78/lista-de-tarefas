@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS invite_link (
+  id INTEGER PRIMARY KEY CHECK (id = 1),
+  token_hash TEXT NOT NULL,
+  enabled INTEGER NOT NULL DEFAULT 1,
+  created_at INTEGER NOT NULL
+);
