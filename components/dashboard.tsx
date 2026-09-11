@@ -87,7 +87,6 @@ export default function Dashboard({ user }: { user: PublicUser }) {
   const [deleting, setDeleting] = useState<Task | null>(null);
   const [busyTask, setBusyTask] = useState<string | null>(null);
   const [signingOut, setSigningOut] = useState(false);
-  const [debugInfo, setDebugInfo] = useState("");
   const [today, setToday] = useState("");
   const requestNumber = useRef(0);
   const mutationBusy = useRef(false);
@@ -131,30 +130,6 @@ export default function Dashboard({ user }: { user: PublicUser }) {
   useEffect(() => {
     setPage(1);
   }, [view, category, query]);
-  useEffect(() => {
-    if (loading) return;
-    const measure = () => {
-      const vw = window.innerWidth;
-      const overflowing = [...document.querySelectorAll("body *")]
-        .map((el) => ({ el, r: el.getBoundingClientRect() }))
-        .filter(({ r }) => r.right > vw + 1 && r.width > 0)
-        .sort((a, b) => b.r.right - a.r.right)
-        .slice(0, 3)
-        .map(
-          ({ el, r }) =>
-            `${el.tagName}.${[...el.classList].join(".")}=${Math.round(r.width)}w/${Math.round(r.right)}r`,
-        );
-      setDebugInfo(
-        `vw=${vw} dpr=${window.devicePixelRatio} docSW=${document.documentElement.scrollWidth} ua=${navigator.userAgent.slice(0, 60)} :: ${overflowing.join(" | ") || "sem estouro detectado"}`,
-      );
-    };
-    const timer = setTimeout(measure, 400);
-    window.addEventListener("resize", measure);
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener("resize", measure);
-    };
-  }, [loading, tasks]);
 
   const pending = tasks.filter((task) => task.status !== "completed");
   const completed = tasks.length - pending.length;
@@ -317,25 +292,6 @@ export default function Dashboard({ user }: { user: PublicUser }) {
 
   return (
     <div className="app-shell">
-      {debugInfo && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 999,
-            background: "#000",
-            color: "#0f0",
-            fontSize: 10,
-            padding: "4px 6px",
-            wordBreak: "break-all",
-            fontFamily: "monospace",
-          }}
-        >
-          {debugInfo}
-        </div>
-      )}
       <a className="skip-link" href="#main">
         Pular para as tarefas
       </a>
@@ -528,6 +484,22 @@ export default function Dashboard({ user }: { user: PublicUser }) {
           )}
         </header>
         <main id="main" className="main-content">
+          <div className="page-heading">
+            <div>
+              <span className="eyebrow">UM PASSO DE CADA VEZ</span>
+              <h1>
+                Seu dia, mais leve<span className="heading-dot">.</span>
+              </h1>
+              <p>Organize suas prioridades e abra espaço para o que importa.</p>
+            </div>
+            <button
+              className="primary new-task"
+              onClick={() => setEditor({ task: null })}
+              disabled={loading || !!busyTask}
+            >
+              <Plus size={19} /> Nova tarefa
+            </button>
+          </div>
           <div className="content-grid">
             <section className="task-surface" aria-label="Lista de tarefas">
               <div className="toolbar-card">
