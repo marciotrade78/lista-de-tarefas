@@ -27,7 +27,14 @@ before(async () => {
 });
 after(async () => {
   getDb().close();
-  await rm(directory, { recursive: true, force: true });
+  // Release native SQLite statement handles before deleting files on Windows.
+  global.gc?.();
+  await rm(directory, {
+    recursive: true,
+    force: true,
+    maxRetries: 3,
+    retryDelay: 100,
+  });
 });
 test("missing or incorrect setup keys cannot initialize the database", async () => {
   await assert.rejects(completeSetup({ ...input, token: "" }, access), {
@@ -61,7 +68,7 @@ test("authorized setup creates schema and a password-hashed account", async () =
   );
   assert.equal(
     (await getDb().execute("SELECT * FROM schema_migrations")).rows.length,
-    3,
+    4,
   );
   assert.equal(
     (await getDb().execute("SELECT * FROM app_setup")).rows.length,

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { categories, priorities, statuses } from "./types";
+import { priorities, statuses } from "./types";
 
 export const emailSchema = z
   .string()
@@ -30,10 +30,30 @@ export const taskSchema = z
   .object({
     title: z.string().trim().min(1, "Informe o título da tarefa.").max(160),
     description: z.string().trim().max(4000).default(""),
-    category: z.enum(categories),
+    category: z.string().trim().min(1).max(40),
     priority: z.enum(priorities),
     status: z.enum(statuses),
     dueDate: dateSchema.nullable(),
+    dueTime: z
+      .string()
+      .regex(/^([01]\d|2[0-3]):[0-5]\d$/)
+      .nullable()
+      .optional(),
+    reminder: z.boolean().optional(),
+    recurrence: z.enum(["none", "daily", "weekly", "monthly"]).optional(),
+    subtasks: z
+      .array(
+        z
+          .object({
+            id: z.string().max(80),
+            title: z.string().trim().min(1).max(160),
+            done: z.boolean(),
+          })
+          .strict(),
+      )
+      .max(50)
+      .optional(),
+    estimatedMinutes: z.number().int().min(0).max(10080).optional(),
   })
   .strict();
 export const updateTaskSchema = taskSchema.extend({

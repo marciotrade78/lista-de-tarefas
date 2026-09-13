@@ -4,7 +4,11 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { migrate } from "../lib/server/migrate";
-import { createInvite, revokeInvite, registerWithInvite } from "../lib/server/invite";
+import {
+  createInvite,
+  revokeInvite,
+  registerWithInvite,
+} from "../lib/server/invite";
 import { getDb } from "../lib/server/database";
 import { verifyPassword } from "../lib/server/password";
 
@@ -17,7 +21,14 @@ before(async () => {
 });
 after(async () => {
   getDb().close();
-  await rm(directory, { recursive: true, force: true });
+  // Release native SQLite statement handles before deleting files on Windows.
+  global.gc?.();
+  await rm(directory, {
+    recursive: true,
+    force: true,
+    maxRetries: 3,
+    retryDelay: 100,
+  });
 });
 
 test("registration without a valid invite token is rejected", async () => {

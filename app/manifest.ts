@@ -2,14 +2,14 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Em dia · Lista de tarefas",
-    short_name: "Em dia",
+    name: "TarefasPro · Lista de tarefas",
+    short_name: "TarefasPro",
     description: "Organize tarefas, prioridades e compromissos em um só lugar.",
     start_url: "/",
     scope: "/",
     display: "standalone",
-    background_color: "#c3e0fa",
-    theme_color: "#1868d6",
+    background_color: "#ffffff",
+    theme_color: "#ffffff",
     lang: "pt-BR",
     icons: [
       { src: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },

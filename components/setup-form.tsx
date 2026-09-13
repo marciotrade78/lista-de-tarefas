@@ -60,7 +60,7 @@ export default function SetupForm() {
           <span className="brand-mark">
             <CheckCheck />
           </span>
-          em dia<span className="brand-dot">.</span>
+          TarefasPro
         </Link>
         {done ? (
           <>

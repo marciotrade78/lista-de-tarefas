@@ -51,7 +51,14 @@ before(async () => {
 });
 after(async () => {
   getDb().close();
-  await rm(directory, { recursive: true, force: true });
+  // Release native SQLite statement handles before deleting files on Windows.
+  global.gc?.();
+  await rm(directory, {
+    recursive: true,
+    force: true,
+    maxRetries: 3,
+    retryDelay: 100,
+  });
 });
 
 test("migrations are idempotent and passwords are hashed with distinct salts", async () => {

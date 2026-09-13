@@ -44,11 +44,11 @@ export default function LoginForm() {
   return (
     <main className="login-shell">
       <section className="login-story">
-        <a className="brand" href="/" aria-label="Em dia, início">
+        <a className="brand" href="/" aria-label="TarefasPro, início">
           <span className="brand-mark">
             <CheckCheck />
           </span>
-          em dia<span className="brand-dot">.</span>
+          TarefasPro
         </a>
         <div className="login-message">
           <span className="eyebrow">MENOS ESQUECIMENTOS. MAIS CLAREZA.</span>
@@ -124,8 +124,8 @@ export default function LoginForm() {
             </button>
           </form>
           <p className="login-note">
-            Para criar sua conta, use o link de convite que você recebeu.
-            Para redefinir sua senha, procure o responsável pelo aplicativo.
+            Para criar sua conta, use o link de convite que você recebeu. Para
+            redefinir sua senha, procure o responsável pelo aplicativo.
           </p>
         </div>
       </section>

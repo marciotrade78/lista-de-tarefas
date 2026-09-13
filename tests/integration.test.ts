@@ -99,7 +99,15 @@ after(async () => {
     await stopped;
   }
   getDb().close();
-  if (directory) await rm(directory, { recursive: true, force: true });
+  // Release native SQLite statement handles before deleting files on Windows.
+  global.gc?.();
+  if (directory)
+    await rm(directory, {
+      recursive: true,
+      force: true,
+      maxRetries: 3,
+      retryDelay: 100,
+    });
 });
 test("private pages and API reject anonymous access", async () => {
   const home = await request("/");
